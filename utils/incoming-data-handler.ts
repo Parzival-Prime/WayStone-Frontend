@@ -20,7 +20,7 @@ export class DataHandler {
     private globalState: StateType = {
         connectionStatus: "connecting",
         username: "",
-        messages: [],
+        messages: [{message: "Hello, Parzival!", Id: "39204-fsjf", username: "evangalion"}],
         allMembers: [],
         Id: "",
         roomId: "",

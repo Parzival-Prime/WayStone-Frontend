@@ -11,7 +11,7 @@ export default function HomeToRoomButton() {
   async function handleButtonClick() {
     setIsPending(true)
     try {
-      const res = await fetch("https://waystone-backend.onrender.com/allocate-room").then(
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_HTTP_HOST}/allocate-room`).then(
         (res) => res.json()
       );
       if (res?.success) {

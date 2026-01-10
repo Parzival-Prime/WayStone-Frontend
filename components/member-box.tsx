@@ -11,13 +11,17 @@ export default function MemberPanel({
   const username = useUsernameState(dataHandler);
   const latency = useLatency(dataHandler);
   return (
-    <div className="flex-4 space-y-3 bg-black/30 pt-5 px-6 font-comfortaa">
-      <div className="h-23 rounded-tl-lg rounded-br-lg p-5 text-rose-500 bg-rose-700/30">
+    <div className="flex-4 space-y-3 pt-5 px-6">
+      <div className="relative h-38 rounded-tl-lg rounded-br-lg p-5 pl-8 text-[#96c3fd]">
+        <div className="-z-5 absolute h-36 w-54 top-0 left-5 bg-[url('/themes/mech/username-box-2.svg')] bg-cover bg-no-repeat scale-120">
+        </div>
         Username: <span className="font-medium">{username}</span> <br /> Ping:{" "}
         ~{latency}ms
+        <div className="absolute bottom-6 right-14 h-10 w-25 font-medium text-shadow-lg font-orbitron text-4xl text-amber-400 cursor-none">003</div>
       </div>
-      <div className="rounded-tl-lg rounded-br-lg py-2 px-5 space-y-2 bg-violet-800/15">
-        <div className="font-bold text-violet-300 mb-2 w-full text-center">
+      <div className="relative rounded-tl-lg rounded-br-lg py-2 px-5 space-y-2">
+      <div className="-z-5 absolute w-75 h-105 top-0 left-0 bg-[url('/themes/mech/members-board-2.svg')] bg-cover bg-no-repeat"></div>
+        <div className="text-2xl font-medium text-amber-400 mb-2 w-full text-center">
           Members
         </div>
         <div className="ml-5 py-3">
@@ -32,9 +36,11 @@ export default function MemberPanel({
 
 function MemberBox({ musername, username }: { musername: string, username: string }) {
   return (
-    <div className={`w-[70%] font-light text-sm p-1 px-2 ml-4 rounded-tl-md rounded-br-md text-violet-300 hover:bg-violet-800/50 hover:text-violet-100 transition-all duration-1.5 ease-in-out
-    ${musername === username ? "border border-violet-300/35" : ""}
+    <div className={` w-[70%] font-light text-sm my-3 p-1 px-2 ml-4
+      relative text-[#00eeff] tracking-wide
     `}>
+
+      <div className="-z-5 absolute -top-1 left-0 h-8.5 w-35.5 bg-[url('/themes/mech/member-username-box.svg')] bg-cover bg-no-repeat"></div>
       {musername}
     </div>
   );

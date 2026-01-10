@@ -278,6 +278,14 @@
   font-style: normal;
 }
 
+.font-orbitron {
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+
 
 
 
@@ -323,4 +331,10 @@
 
 }
 
+
+.chat-bg {
+  background-image: url('/bgs/eva-003-mid.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 

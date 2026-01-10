@@ -1,13 +1,38 @@
+type UserMessageProps = {
+  message: string;
+  className: string;
+};
+type SenderMessageProps = {
+  message: string;
+  className: string;
+  username: string;
+};
 
-type MessageProps = {
-    message: string
-    className: string
-    username:string | null
+export function UserMessage({ message, className }: UserMessageProps) {
+  return (
+    <div
+      className={`${className} w-fit max-w-sm h-auto border-2 border-[#2554ff] bg-[#00374d] rounded-lg px-1.75 py-1 whitespace-pre-wrap wrap-anywhere text-[#96c3fd]`}
+    >
+      {message} 
+    </div>
+  );
 }
-export default function Message({ message, className, username }: MessageProps) {
-  return <div className={`${className} w-fit max-w-sm h-auto border border-emerald-950 bg-green-500/80 inset-shadow-sm inset-shadow-neutral-950 rounded-lg px-1.75 py-1 whitespace-pre-wrap wrap-anywhere text-green-950`}>
-    {username && <span className="text-[.7rem] block mb-0.5 text-rose-900">{username}</span>
-}
-    {message}
-  </div>;
+
+export function SenderMessage({
+  message,
+  className,
+  username,
+}: SenderMessageProps) {
+  return (
+    <div
+      className={`${className} relative w-fit max-w-sm h-auto border-2 border-[#2554ff] bg-[#00374d] rounded-lg px-1.75 py-1 whitespace-pre-wrap wrap-anywhere text-[#96c3fd]`}
+    >
+      {username && (
+        <span className="text-[.7rem] block mb-0.5 text-amber-400">
+          {username}
+        </span>
+      )}
+      {message}
+    </div>
+  );
 }
