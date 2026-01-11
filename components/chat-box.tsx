@@ -15,7 +15,13 @@ import { ChatMessageDataExchangeFormat, DataType } from "@/types/data.types";
 import { toast } from "sonner";
 import { ArrowDownIcon, ChevronRight } from "lucide-react";
 
-export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHandler: DataHandler, handleShowMembersTab: ()=>void }) {
+export default function ChatBox({
+  dataHandler,
+  handleShowMembersTab,
+}: {
+  dataHandler: DataHandler;
+  handleShowMembersTab: () => void;
+}) {
   const [newMessage, setNewMessage] = useState("");
   const messages = useMessagesState(dataHandler);
   const Id = useUserIDState(dataHandler);
@@ -25,9 +31,12 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  const [showScrollToBottomBtn, setShowScrollToBottomBtn] = useState(false)
+  const [showScrollToBottomBtn, setShowScrollToBottomBtn] = useState(false);
 
   function sendMessage() {
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
     if (!newMessage.trim()) return;
 
     if (dataHandler.wsRef.current?.readyState === WebSocket.OPEN) {
@@ -46,10 +55,6 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
       dataHandler.wsRef.current.send(onBoardingData);
       setNewMessage("");
     }
-
-    requestAnimationFrame(() => {
-    inputRef.current?.focus();
-  });
   }
 
   const handleScroll = () => {
@@ -61,7 +66,7 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
     setShouldAutoScroll(distanceFromBottom < 100);
   };
 
-  function handleScrollToBottom(){
+  function handleScrollToBottom() {
     const el = chatRef.current;
     if (!el) return;
 
@@ -69,14 +74,14 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
       top: el.scrollHeight,
       behavior: "smooth",
     });
-    setShowScrollToBottomBtn(false)
+    setShowScrollToBottomBtn(false);
   }
 
   useEffect(() => {
     if (!shouldAutoScroll) {
-      setShowScrollToBottomBtn(true)
-      return
-    };
+      setShowScrollToBottomBtn(true);
+      return;
+    }
 
     const el = chatRef.current;
     if (!el) return;
@@ -88,19 +93,20 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
   }, [messages]);
 
   useLayoutEffect(() => {
-    gsap.fromTo('#scroll-to-bottom-btn', 
+    gsap.fromTo(
+      "#scroll-to-bottom-btn",
       {
-        bottom: 67
+        bottom: 67,
       },
       {
         bottom: 72,
         duration: 0.7,
         repeat: -1,
         smoothOrigin: true,
-        yoyoEase: Power2.easeInOut
+        yoyoEase: Power2.easeInOut,
       }
-    )
-  }, [])
+    );
+  }, []);
 
   return (
     <div className="relative h-svh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
@@ -127,8 +133,9 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
         </div>
       </div>
 
-      <div className="md:hidden absolute flex justify-center items-center w-6 h-8 bg-[#00374d] text-[#96c3fd]  border-2 rounded-r-sm border-[#2554ff] top-12 left-0 "
-      onClick={()=>handleShowMembersTab()}
+      <div
+        className="md:hidden absolute flex justify-center items-center w-6 h-8 bg-[#00374d] text-[#96c3fd]  border-2 rounded-r-sm border-[#2554ff] top-12 left-0 "
+        onClick={() => handleShowMembersTab()}
       >
         <ChevronRight />
       </div>
@@ -156,18 +163,19 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
         )}
       </div>
 
-       <div
-          onClick={handleScrollToBottom}
-          id="scroll-to-bottom-btn"
-          className={`absolute flex justify-center items-center bottom-67 left-[40%] h-10 w-10 rounded-full bg-cyan-400/80 shadow-[0_0_10px_rgba(37,84,255,0.6)] ${!showScrollToBottomBtn && "hidden"}`}
-        >
-          <ArrowDownIcon color="#000000" />
-        </div>
+      <div
+        onClick={handleScrollToBottom}
+        id="scroll-to-bottom-btn"
+        className={`absolute flex justify-center items-center bottom-67 left-[40%] h-10 w-10 rounded-full bg-cyan-400/80 shadow-[0_0_10px_rgba(37,84,255,0.6)] ${
+          !showScrollToBottomBtn && "hidden"
+        }`}
+      >
+        <ArrowDownIcon color="#000000" />
+      </div>
 
-      <form onSubmit={(e) => {
-    e.preventDefault();
-    sendMessage();
-  }} className="px-6 py-3">
+      <form
+        className="px-6 py-3"
+      >
         <div className="flex gap-3">
           <input
             type="text"
@@ -180,7 +188,9 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
             placeholder="Type your message..."
           />
           <button
-            type="submit"
+          onClick={(e)=>{
+            e.preventDefault()
+            sendMessage()}}
             disabled={connectionStatus !== "connected"}
             className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative `}
           >
