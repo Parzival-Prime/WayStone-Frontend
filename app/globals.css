@@ -242,7 +242,7 @@
 
 
 
-.font-nunito{
+.font-nunito {
   font-family: "Nunito", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -263,7 +263,7 @@
 }
 
 
-.font-saira{
+.font-saira {
   font-family: "Saira", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -289,45 +289,51 @@
 
 
 
+@layer utilities {
 
+  .hero-bg-1 {
+    background: radial-gradient(circle at 76% 50%,
+        /* ← shift right */
+        rgba(0, 66, 44, 0.945) 0%,
+        rgb(0, 34, 23) 15%,
+        rgb(0, 15, 10) 37%,
+        rgb(0, 12, 8) 100%);
+  }
 
-.hero-bg-1 {
-  background: radial-gradient(circle at 76% 50%,
-      /* ← shift right */
-      rgba(0, 66, 44, 0.945) 0%,
-      rgb(0, 34, 23) 15%,
-      rgb(0, 15, 10) 37%,
-      rgb(0, 12, 8) 100%);
-}
-
-@layer utilities{
-
-
-@theme {
-  --animate-border-spin: border-spin 7s linear infinite;
-
-  @keyframes border-spin {
-    to {
-      transform: rotate(-360deg);
-    }
+  .hero-bg-2 {
+    background: linear-gradient(100deg,
+        /* right → left */
+        rgba(0, 66, 44, 0.945) 0%,
+        rgb(0, 34, 23) 15%,
+        rgb(0, 15, 10) 37%,
+        rgb(0, 12, 8) 100%);
   }
 }
 
+@layer utilities {
+  @theme {
+    --animate-border-spin: border-spin 7s linear infinite;
+
+    @keyframes border-spin {
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+  }
 
 
-.hero-button-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: 0;
 
-  background: conic-gradient(
-    rgba(0, 255, 170) 0deg,
-    rgb(0, 255, 34) 40deg,
-    transparent 80deg
-  );
+  .hero-button-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
 
-  @apply h-[150%] w-[150%] left-[-25%] top-[-25%] animate-border-spin;
-}
+    background: conic-gradient(rgba(0, 255, 170) 0deg,
+        rgb(0, 255, 34) 40deg,
+        transparent 80deg);
+
+    @apply h-[150%] w-[150%] left-[-25%] top-[-25%] animate-border-spin;
+  }
 
 }
 
@@ -341,10 +347,13 @@
 
 
 .no-scrollbar {
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
 }
 
 .no-scrollbar::-webkit-scrollbar {
-  display: none;                /* Chrome, Safari */
+  display: none;
+  /* Chrome, Safari */
 }

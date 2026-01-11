@@ -13,7 +13,7 @@ export default function page() {
   const wsRef = useRef<WebSocket | null>(null);
   const dataHandler = useMemo(() => new DataHandler(wsRef), []);
   const { roomId } = useParams<{ roomId: string }>();
-  const [themeState, setThemeState] = useState("bg-[url('/bgs/eva-003-mid.png')] bg-cover brightness-60")
+  const [showMembersTab, setShowMembersTab] = useState(false)
 
   useEffect(() => {
     const ws = new WebSocket(`${process.env.NEXT_PUBLIC_BACKEND_WS_HOST}?roomId=${roomId}`);
@@ -55,13 +55,17 @@ export default function page() {
       }
     };
   }, [roomId]);
+
+  function handleShowMembersTab(){
+    setShowMembersTab(prev => !prev)
+  }
   return (
-    <div className="flex relative w-full min-h-screen text-white font-saira">
-      <div className={`absolute -z-10 ${themeState} top-0 left-0 h-svh w-full`}></div>
+    <div className="flex flex-col relative w-full min-h-svh text-white font-saira">
+      <div className={`absolute -z-10 bg-[url('/bgs/eva-003-mid.png')] bg-cover bg-no-repeat brightness-60 top-0 h-svh -left-102 w-200 sm:left-0 sm:w-full overflow-x-hidden`}></div>
       {/* <StatusBox dataHandler={dataHandler} /> */}
-      <div className="flex w-full">
-        <MemberPanel dataHandler={dataHandler}  />
-        <ChatBox dataHandler={dataHandler}  />
+      <div className="flex flex-col md:flex-row w-full">
+        <MemberPanel dataHandler={dataHandler} showMembersTab={showMembersTab}  />
+        <ChatBox dataHandler={dataHandler} handleShowMembersTab={handleShowMembersTab}  />
         <EventPanel />
       </div>
     </div>

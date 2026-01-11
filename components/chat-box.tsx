@@ -13,9 +13,9 @@ import {
 } from "@/hooks/data-handler.hooks";
 import { ChatMessageDataExchangeFormat, DataType } from "@/types/data.types";
 import { toast } from "sonner";
-import { ArrowDownIcon } from "lucide-react";
+import { ArrowDownIcon, ChevronRight } from "lucide-react";
 
-export default function ChatBox({ dataHandler }: { dataHandler: DataHandler }) {
+export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHandler: DataHandler, handleShowMembersTab: ()=>void }) {
   const [newMessage, setNewMessage] = useState("");
   const messages = useMessagesState(dataHandler);
   const Id = useUserIDState(dataHandler);
@@ -99,7 +99,7 @@ export default function ChatBox({ dataHandler }: { dataHandler: DataHandler }) {
   }, [])
 
   return (
-    <div className="relative h-svh flex-8 flex flex-col shadow-lg border-x border-white/20">
+    <div className="relative h-svh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
       <div
         className={`px-6 py-3 text-sm font-medium border-b border-neutral-100/20 ${
           connectionStatus === "connected"
@@ -123,10 +123,16 @@ export default function ChatBox({ dataHandler }: { dataHandler: DataHandler }) {
         </div>
       </div>
 
+      <div className="md:hidden absolute flex justify-center items-center w-6 h-8 bg-[#00374d] text-[#96c3fd]  border-2 rounded-r-sm border-[#2554ff] top-12 left-0 "
+      onClick={()=>handleShowMembersTab()}
+      >
+        <ChevronRight />
+      </div>
+
       <div
         ref={chatRef}
         onScroll={handleScroll}
-        className=" flex flex-col flex-1 p-6 space-y-4 overflow-y-auto no-scrollbar"
+        className=" flex flex-col flex-1 p-6 space-y-4 overflow-y-auto no-scrollbar "
       >
         {messages.map((messageObj, index) =>
           messageObj.Id !== Id ? (
@@ -168,7 +174,7 @@ export default function ChatBox({ dataHandler }: { dataHandler: DataHandler }) {
           <button
             type="submit"
             disabled={connectionStatus !== "connected"}
-            className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative`}
+            className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative `}
           >
             {/*  */}
             <div className="-z-5 absolute scale-90 -top-1 left-0 w-full h-11.5 bg-[url('/themes/mech/send-button.svg')] bg-cover bg-no-repeat"></div>

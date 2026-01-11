@@ -28,7 +28,7 @@ export default function HomeToRoomButton() {
   }
   return (
     <button
-      className="rounded-lg flex items-center justify-center z-5 text-center px-4 h-10 w-40 mt-19 font-amarna relative cursor-pointer
+      className="rounded-lg flex items-center justify-center z-5 text-center text-lg px-4 h-13 w-40 md:h-10 md:w-40 mt-19 font-amarna relative cursor-pointer
             border border-white/10 bg-white/5 drop-shadow-lg shadow-md backdrop-filter backdrop-blur-[2px]
             hover:shadow-xl/60 hover:bg-white/15 hover:backdrop-blur-sm  hover:scale-104 
             active:shadow-xl/90 active:bg-white/8 active:backdrop-blur-xs active:scale-102
