@@ -16,7 +16,7 @@ export default function page() {
   const [showMembersTab, setShowMembersTab] = useState(false)
 
   useEffect(() => {
-    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_BACKEND_WS_HOST}?roomId=${roomId}`);
+    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_BACKEND_WS_HOST}?roomId=${roomId}`)
     wsRef.current = ws;
 
     ws.onopen = () => {

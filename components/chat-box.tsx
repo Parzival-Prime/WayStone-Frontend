@@ -23,11 +23,11 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
   const connectionStatus = useConnectionsState(dataHandler);
   const username = useUsernameState(dataHandler);
   const chatRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [showScrollToBottomBtn, setShowScrollToBottomBtn] = useState(false)
 
-  function sendMessage(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function sendMessage() {
     if (!newMessage.trim()) return;
 
     if (dataHandler.wsRef.current?.readyState === WebSocket.OPEN) {
@@ -46,6 +46,10 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
       dataHandler.wsRef.current.send(onBoardingData);
       setNewMessage("");
     }
+
+    requestAnimationFrame(() => {
+    inputRef.current?.focus();
+  });
   }
 
   const handleScroll = () => {
@@ -160,10 +164,14 @@ export default function ChatBox({ dataHandler, handleShowMembersTab }: { dataHan
           <ArrowDownIcon color="#000000" />
         </div>
 
-      <form onSubmit={sendMessage} className="px-6 py-3">
+      <form onSubmit={(e) => {
+    e.preventDefault();
+    sendMessage();
+  }} className="px-6 py-3">
         <div className="flex gap-3">
           <input
-            type="textarea"
+            type="text"
+            ref={inputRef}
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             className="flex-1 border-2 border-[#2554ff] px-4 py-2 focus:outline-none focus:ring-2 text-[#96c3fd] focus:ring-[#2554ff] focus:border-transparent transition-all focus:text-amber-400

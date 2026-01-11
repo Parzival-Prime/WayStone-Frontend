@@ -13,14 +13,14 @@ export default function MemberPanel({
   const latency = useLatency(dataHandler);
   return (
     <div className={`origin-top-left scale-[0.85] sm:scale-[0.9] md:scale-100 flex-4 md:static w-90 absolute top-25
-    ${showMembersTab ? "left-0 pl-9" : "-left-full"} transition-all duration-100 ease-in-out`}>
+    ${showMembersTab ? "left-0 pl-9 z-10" : "-left-full"} transition-all duration-100 ease-in-out`}>
       
       <div className="relative h-38 mb-4 p-5 pl-8 md:top-4 md:left-2 text-[#96c3fd]">
         <div className="-z-5 absolute h-36 w-54 top-0 left-5 bg-[url('/themes/mech/username-box-2.svg')] bg-cover bg-no-repeat scale-120">
         </div>
         Username: <span className="font-medium">{username}</span> <br /> Ping:{" "}
         ~{latency}ms
-        <div className="absolute bottom-6 right-21 h-10 w-25 font-medium text-shadow-lg font-orbitron text-4xl text-amber-400 cursor-none">003</div>
+        <div className="absolute bottom-6 right-23 h-10 w-25 font-medium text-shadow-lg font-orbitron text-4xl text-amber-400 cursor-none">003</div>
       </div>
 
       <div className="relative top-4 left-1 h-100 py-2 px-5 space-y-2">
