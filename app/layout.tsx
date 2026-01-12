@@ -82,7 +82,7 @@ export default function RootLayout({
           ${raleway.variable}
           ${saira.variable}
           ${orbitron.variable}
-          antialiased`}
+          antialiased overflow-hidden`}
       >
         <Toaster position="top-right" richColors />
         {children}

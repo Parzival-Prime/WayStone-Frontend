@@ -357,3 +357,10 @@
   display: none;
   /* Chrome, Safari */
 }
+
+textarea {
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+    box-sizing: border-box;
+
+}

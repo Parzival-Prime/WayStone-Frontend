@@ -60,8 +60,8 @@ export default function page() {
     setShowMembersTab(prev => !prev)
   }
   return (
-    <div className="flex flex-col relative w-full min-h-svh text-white font-saira">
-      <div className={`absolute -z-10 bg-[url('/bgs/eva-003-mid.png')] bg-cover bg-no-repeat brightness-60 top-0 h-svh -left-102 w-200 sm:left-0 sm:w-full overflow-x-hidden`}></div>
+    <div className="flex flex-col relative w-full min-h-dvh text-white font-saira">
+      <div className={`fixed inset-0 pointer-events-none bg-center bg-fixed -z-10 bg-[url('/bgs/eva-003-mid.png')] bg-cover bg-no-repeat brightness-60 top-0  -left-102 w-200 sm:left-0 sm:w-full min-h-dvh  overflow-x-hidden`}></div>
       {/* <StatusBox dataHandler={dataHandler} /> */}
       <div className="flex flex-col md:flex-row w-full">
         <MemberPanel dataHandler={dataHandler} showMembersTab={showMembersTab}  />

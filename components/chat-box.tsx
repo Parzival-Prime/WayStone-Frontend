@@ -1,6 +1,13 @@
 "use client";
 
-import { RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  RefObject,
+  useEffect,
+  useMemo,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { SenderMessage, UserMessage } from "@/components/message-box";
 import type { DataHandler } from "@/utils/incoming-data-handler";
 import { gsap, Power2 } from "gsap";
@@ -22,6 +29,9 @@ export default function ChatBox({
   dataHandler: DataHandler;
   handleShowMembersTab: () => void;
 }) {
+  const isMobile = useMemo(() => {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }, []);
   const [newMessage, setNewMessage] = useState("");
   const messages = useMessagesState(dataHandler);
   const Id = useUserIDState(dataHandler);
@@ -51,11 +61,6 @@ export default function ChatBox({
       const onBoardingData = JSON.stringify(onBoardingDataObject);
       dataHandler.wsRef.current.send(onBoardingData);
       setNewMessage("");
-      requestAnimationFrame(() => {
-      if (textareaRef.current) {
-        textareaRef.current.style.height = "auto";
-      }
-    });
     }
   }
 
@@ -110,16 +115,18 @@ export default function ChatBox({
     );
   }, []);
 
-  function autoResizeTextarea() {
+  useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
 
     el.style.height = "auto";
-    el.style.height = `${el.scrollHeight}px`;
-  }
+    requestAnimationFrame(() => {
+      el.style.height = `${el.scrollHeight}px`;
+    });
+  }, [newMessage]);
 
   return (
-    <div className="relative h-svh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
+    <div className="relative min-h-dvh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
       <div
         className={`px-6 py-3 text-sm font-medium border-b border-neutral-100/20 ${
           connectionStatus === "connected"
@@ -190,33 +197,49 @@ export default function ChatBox({
             ref={textareaRef}
             value={newMessage}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
+              if (e.key !== "Enter") return;
+
+              if (isMobile) {
+                return;
+              }
+
+              // Desktop behavior
+              if (!e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
               }
             }}
             onChange={(e) => {
               setNewMessage(e.target.value);
-              autoResizeTextarea();
             }}
             className="flex-1 border-2 border-[#2554ff] px-4 py-2 focus:outline-none focus:ring-2 text-[#96c3fd] focus:ring-[#2554ff] focus:border-transparent transition-all focus:text-amber-400
-            bg-[#00374d] resize-none overflow-y-auto leading-6 no-scrollbar
-            max-h-25 sm:max-h-35"
+            bg-[#00374d] resize-none leading-6 no-scrollbar sm:max-h-35 overflow-hidden"
             placeholder="Type your message..."
           />
           <div className="flex items-center justify-center">
-            <button
-              onClick={(e) => {
+            <div
+              role="button"
+              aria-label="Send message"
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                sendMessage();
+
+                requestAnimationFrame(() => {
+                  if (textareaRef.current) {
+                    textareaRef.current.style.height = "auto";
+                  }
+                });
+              }}
+              onMouseDown={(e) => {
                 e.preventDefault();
                 sendMessage();
               }}
-              disabled={connectionStatus !== "connected"}
-              className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative `}
+              className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative select-none`}
             >
               {/*  */}
               <div className="-z-5 absolute scale-90 -top-1 left-0 w-full h-11.5 bg-[url('/themes/mech/send-button.svg')] bg-cover bg-no-repeat"></div>
               Send
-            </button>
+            </div>
           </div>
         </div>
       </div>
