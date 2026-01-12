@@ -213,10 +213,10 @@ export default function ChatBox({
               setNewMessage(e.target.value);
             }}
             className="flex-1 border-2 border-[#2554ff] px-4 py-2 focus:outline-none focus:ring-2 text-[#96c3fd] focus:ring-[#2554ff] focus:border-transparent transition-all focus:text-amber-400
-            bg-[#00374d] resize-none leading-6 no-scrollbar sm:max-h-35 overflow-hidden"
+            bg-[#00374d] resize-none leading-6 no-scrollbar sm:max-h-35 overflow--scroll max-h-35"
             placeholder="Type your message..."
           />
-          <div className="flex items-center justify-center">
+          <div className="flex items-end justify-center">
             <div
               role="button"
               aria-label="Send message"
