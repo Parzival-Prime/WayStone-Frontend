@@ -4,7 +4,8 @@ import {
     NewMemberEventDataExchangeFormat,
     LatencyPingDataExchangeFormat,
     DataType, 
-    MemberDisconnectionDataExchangeFormat
+    MemberDisconnectionDataExchangeFormat,
+    LatencyPongDataExchangeFormat
 } from "@/types/data.types";
 import { RefObject } from "react";
 import { StateKey, StateType } from "@/types/data-handler.types"
@@ -63,7 +64,6 @@ export class DataHandler {
                 break
 
             case DataType.INIT:
-                toast.success("Received Init Data!")
                 this.handleInit(data)
                 break
 
@@ -130,11 +130,11 @@ export class DataHandler {
         this.callTheCallBacks("connectionStatus")
     }
 
-    public handleLatencyPong(data: LatencyPingDataExchangeFormat) {
+    public handleLatencyPong(data: LatencyPongDataExchangeFormat) {
         if (!data.timestamp || typeof data.timestamp !== "number") {
             throw new Error("Invalid timestamp error!")
         }
-        this.globalState.latency = (Date.now() - data.timestamp) + 1
+        this.globalState.latency = (Date.now() - data.timestamp)
         this.callTheCallBacks("latency")
     }
 

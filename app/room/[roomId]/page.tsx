@@ -41,7 +41,7 @@ export default function page() {
           JSON.stringify({
             type: DataType.LATENCY_PING,
             roomId: roomId,
-            Id: dataHandler.getState("Id"),
+            userId: dataHandler.getState("Id"),
             timestamp: Date.now(),
           })
         );

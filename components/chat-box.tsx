@@ -29,14 +29,11 @@ export default function ChatBox({
   const connectionStatus = useConnectionsState(dataHandler);
   const username = useUsernameState(dataHandler);
   const chatRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [showScrollToBottomBtn, setShowScrollToBottomBtn] = useState(false);
 
   function sendMessage() {
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
     if (!newMessage.trim()) return;
 
     if (dataHandler.wsRef.current?.readyState === WebSocket.OPEN) {
@@ -46,7 +43,7 @@ export default function ChatBox({
       }
       const onBoardingDataObject: ChatMessageDataExchangeFormat = {
         type: DataType.USER_MESSAGE,
-        message: newMessage,
+        message: newMessage.trim(),
         roomId: roomId,
         userId: Id,
         username: username,
@@ -54,6 +51,11 @@ export default function ChatBox({
       const onBoardingData = JSON.stringify(onBoardingDataObject);
       dataHandler.wsRef.current.send(onBoardingData);
       setNewMessage("");
+      requestAnimationFrame(() => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+      }
+    });
     }
   }
 
@@ -107,6 +109,14 @@ export default function ChatBox({
       }
     );
   }, []);
+
+  function autoResizeTextarea() {
+    const el = textareaRef.current;
+    if (!el) return;
+
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }
 
   return (
     <div className="relative h-svh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
@@ -173,33 +183,43 @@ export default function ChatBox({
         <ArrowDownIcon color="#000000" />
       </div>
 
-      <form
-        className="px-6 py-3"
-      >
+      <div className="px-6 py-3">
         <div className="flex gap-3">
-          <input
-            type="text"
-            ref={inputRef}
+          <textarea
+            rows={1}
+            ref={textareaRef}
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+              }
+            }}
+            onChange={(e) => {
+              setNewMessage(e.target.value);
+              autoResizeTextarea();
+            }}
             className="flex-1 border-2 border-[#2554ff] px-4 py-2 focus:outline-none focus:ring-2 text-[#96c3fd] focus:ring-[#2554ff] focus:border-transparent transition-all focus:text-amber-400
-            bg-[#00374d] 
-            "
+            bg-[#00374d] resize-none overflow-y-auto leading-6 no-scrollbar
+            max-h-25 sm:max-h-35"
             placeholder="Type your message..."
           />
-          <button
-          onClick={(e)=>{
-            e.preventDefault()
-            sendMessage()}}
-            disabled={connectionStatus !== "connected"}
-            className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative `}
-          >
-            {/*  */}
-            <div className="-z-5 absolute scale-90 -top-1 left-0 w-full h-11.5 bg-[url('/themes/mech/send-button.svg')] bg-cover bg-no-repeat"></div>
-            Send
-          </button>
+          <div className="flex items-center justify-center">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                sendMessage();
+              }}
+              disabled={connectionStatus !== "connected"}
+              className={`px-6 py-2 my-1 font-medium transition-all text-[#96c3fd] relative `}
+            >
+              {/*  */}
+              <div className="-z-5 absolute scale-90 -top-1 left-0 w-full h-11.5 bg-[url('/themes/mech/send-button.svg')] bg-cover bg-no-repeat"></div>
+              Send
+            </button>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
