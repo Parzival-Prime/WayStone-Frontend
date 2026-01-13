@@ -126,7 +126,7 @@ export default function ChatBox({
   }, [newMessage]);
 
   return (
-    <div className="relative min-h-dvh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
+    <div className="relative h-dvh min-h-dvh w-full md:flex-8 flex flex-col shadow-lg border-x border-white/20">
       <div
         className={`px-6 py-3 text-sm font-medium border-b border-neutral-100/20 ${
           connectionStatus === "connected"
