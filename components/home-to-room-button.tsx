@@ -79,7 +79,7 @@ export default function HomeToRoomButton() {
             </path>
           </svg>
           </div>
-          <h3 className="text-md font-quicksand">Free hosting Servers are put into idle mode after a period of inactivity, <br /> so sometimes request to backend may take few seconds . . .</h3>
+          <h3 className="text-md font-quicksand px-3">Free hosting Servers are put into idle mode after 50 seconds of inactivity, <br /> so sometimes request to backend may take few seconds . . .</h3>
         </div>
       )}
     </>

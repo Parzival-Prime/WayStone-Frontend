@@ -190,7 +190,7 @@ export default function ChatBox({
         <ArrowDownIcon color="#000000" />
       </div>
 
-      <div className="px-6 py-3">
+      <div className="sticky bottom-0 px-6 py-3">
         <div className="flex gap-3">
           <textarea
             rows={1}
